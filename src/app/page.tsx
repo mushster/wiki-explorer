@@ -1,42 +1,23 @@
 // app/page.tsx
-import Article from '@/components/Article';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import RefreshButton from '@/components/RefreshButton';
-import { Suspense } from 'react';
+import ArticleList from '@/components/ArticleList';
 
-export default async function Home() {
-  try {
-    const response = await fetch('http://localhost:3000/api/wiki', {
-      cache: 'no-store' // Disable caching to get fresh articles each time
-    });
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
-    const articles = await response.json();
-
-    return (
-      <main className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold">Interesting Wikipedia Articles</h1>
-          <RefreshButton />
-        </div>
-        
-        <Suspense fallback={<div>Loading articles...</div>}>
-          <div className="space-y-6">
-            {articles.map((article: any) => (
-              <Article key={article.pageid} article={article} />
-            ))}
+export default function Home() {
+  return (
+    <main className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
+      <div className="container max-w-4xl mx-auto px-4 py-8">
+        <div className="flex justify-between items-center mb-12">
+          <h1 className="text-3xl font-medium tracking-tight">
+            Interesting Wikipedia Articles
+          </h1>
+          <div className="flex gap-3 items-center">
+            <ThemeToggle />
+            <RefreshButton />
           </div>
-        </Suspense>
-      </main>
-    );
-  } catch (error) {
-    return (
-      <main className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold text-red-600">Error loading articles</h1>
-        <p className="mt-4">Please try again later</p>
-      </main>
-    );
-  }
+        </div>
+        <ArticleList />
+      </div>
+    </main>
+  );
 }

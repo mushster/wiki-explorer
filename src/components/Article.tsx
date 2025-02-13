@@ -1,35 +1,56 @@
 'use client'
 
-import React from 'react';
-import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import React from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog"
 
 interface ArticleProps {
-  title: string;
-  html: string;
-  category: string;
-  length: number;
+  title: string
+  html: string
+  category: string
+  length: number
 }
 
 const Article = ({ article }: { article: ArticleProps }) => {
-  return (
-    <Card className="w-full mb-6">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold">
-          {article.title}
-        </CardTitle>
-        <div className="text-sm text-gray-500">
-          Category: {article.category} • Length: {article.length.toLocaleString()} characters
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div 
-          className="prose prose-sm max-w-none"
-          dangerouslySetInnerHTML={{ __html: article.html }} 
-        />
-      </CardContent>
-    </Card>
-  );
-};
+  const [isOpen, setIsOpen] = React.useState(false)
 
-export default Article; 
+  return (
+    <>
+      <div className="animate-fadeIn cursor-pointer" onClick={() => setIsOpen(true)}>
+        <Card className="overflow-hidden border-0 bg-card/50 backdrop-blur-sm transition-all duration-200 hover:bg-card/70">
+          <CardHeader className="space-y-1">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-xl font-medium">{article.title}</CardTitle>
+              <span className="text-xs font-medium px-2 py-1 rounded-full bg-secondary">
+                {article.category}
+              </span>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div 
+              className="prose prose-sm max-w-none dark:prose-invert prose-headings:font-medium prose-a:text-primary line-clamp-3"
+              dangerouslySetInnerHTML={{ __html: article.html }} 
+            />
+          </CardContent>
+        </Card>
+      </div>
+
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{article.title}</DialogTitle>
+            <span className="text-xs font-medium px-2 py-1 rounded-full bg-secondary w-fit">
+              {article.category}
+            </span>
+          </DialogHeader>
+          <div 
+            className="prose prose-sm max-w-none dark:prose-invert prose-headings:font-medium prose-a:text-primary"
+            dangerouslySetInnerHTML={{ __html: article.html }} 
+          />
+        </DialogContent>
+      </Dialog>
+    </>
+  )
+}
+
+export default Article 
