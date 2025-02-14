@@ -9,6 +9,7 @@ interface ArticleProps {
   html: string
   category: string
   length: number
+  pageid: number
 }
 
 const Article = ({ article }: { article: ArticleProps }) => {
@@ -32,6 +33,15 @@ const Article = ({ article }: { article: ArticleProps }) => {
               dangerouslySetInnerHTML={{ __html: article.html }} 
             />
           </CardContent>
+          <div className="flex justify-end px-6 pb-4">
+          <Link
+                href={`/article/${article.pageid}`}
+                onClick={(e) => e.stopPropagation()}
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+                Read more →
+            </Link>
+          </div>
         </Card>
       </div>
 

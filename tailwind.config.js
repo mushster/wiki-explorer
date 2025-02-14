@@ -32,7 +32,10 @@ module.exports = {
       },
       animation: {
         fadeIn: 'fadeIn 0.3s ease-out forwards'
-      }
+      },
+      fontFamily: {
+        sans: ['var(--font-roboto)'],
+      },
     },
   },
   plugins: [require("@tailwindcss/typography")],

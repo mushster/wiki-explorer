@@ -40,12 +40,11 @@ export default function ArticleList() {
 
   useEffect(() => {
     fetchArticles()
+    // Assign the refresh function to window only on the client side
+    if (typeof window !== 'undefined') {
+      window.refreshArticles = fetchArticles
+    }
   }, [])
-
-  // Export the fetch function to make it available to other components
-  if (typeof window !== 'undefined') {
-    window.refreshArticles = fetchArticles
-  }
 
   if (error) {
     return (

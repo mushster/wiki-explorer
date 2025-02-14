@@ -9,7 +9,7 @@ export default function Home() {
       <div className="container max-w-4xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-12">
           <h1 className="text-3xl font-medium tracking-tight">
-            Interesting Wikipedia Articles
+            What do you want to know?
           </h1>
           <div className="flex gap-3 items-center">
             <ThemeToggle />
