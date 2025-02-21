@@ -1,1 +1,1 @@
-This is the code for my website, which you can find here: https://amusharaf.xyz/
+This is the code for an easy way to view random wikipedia articles. Still lots to do.
