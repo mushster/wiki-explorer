@@ -3,6 +3,7 @@
 import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog"
+import Link from 'next/link'
 
 interface ArticleProps {
   title: string
@@ -10,6 +11,26 @@ interface ArticleProps {
   category: string
   length: number
   pageid: number
+}
+
+// Separate Dialog into its own client component
+const ArticleDialog = ({ isOpen, setIsOpen, article }) => {
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>{article.title}</DialogTitle>
+          <span className="text-xs font-medium px-2 py-1 rounded-full bg-secondary w-fit">
+            {article.category}
+          </span>
+        </DialogHeader>
+        <div 
+          className="prose prose-sm max-w-none dark:prose-invert prose-headings:font-medium prose-a:text-primary"
+          dangerouslySetInnerHTML={{ __html: article.html }} 
+        />
+      </DialogContent>
+    </Dialog>
+  )
 }
 
 const Article = ({ article }: { article: ArticleProps }) => {
@@ -45,20 +66,7 @@ const Article = ({ article }: { article: ArticleProps }) => {
         </Card>
       </div>
 
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>{article.title}</DialogTitle>
-            <span className="text-xs font-medium px-2 py-1 rounded-full bg-secondary w-fit">
-              {article.category}
-            </span>
-          </DialogHeader>
-          <div 
-            className="prose prose-sm max-w-none dark:prose-invert prose-headings:font-medium prose-a:text-primary"
-            dangerouslySetInnerHTML={{ __html: article.html }} 
-          />
-        </DialogContent>
-      </Dialog>
+      <ArticleDialog isOpen={isOpen} setIsOpen={setIsOpen} article={article} />
     </>
   )
 }

@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/ThemeProvider"
 import { cn } from "@/lib/utils"
 import { Instrument_Serif } from "next/font/google";
 import { Roboto } from "next/font/google";
+import { BASE_CLASS_NAME } from "@/lib/constants"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -60,7 +61,7 @@ export default function RootLayout({
       <body 
         className={cn(
           roboto.variable,
-          "antialiased font-sans"
+          BASE_CLASS_NAME
         )}
       >
         <ThemeProvider>
