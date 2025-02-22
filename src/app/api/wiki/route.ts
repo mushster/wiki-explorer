@@ -1,6 +1,23 @@
 import { NextResponse } from 'next/server';
 import { scoreArticle } from '@/lib/article-scorer';
 
+interface WikiPage {
+  pageid: number;
+  title: string;
+  extract: string;
+  categories?: Array<{
+    title: string;
+  }>;
+}
+
+interface WikiResponse {
+  query: {
+    pages: {
+      [key: string]: WikiPage;
+    };
+  };
+}
+
 export async function GET() {
   try {
     // Fetch more articles than needed to allow for filtering
@@ -20,11 +37,11 @@ export async function GET() {
       })
     );
 
-    const data = await response.json();
+    const data: WikiResponse = await response.json();
     
     // Score and sort articles
     const scoredArticles = Object.values(data.query.pages)
-      .map((page: any) => ({
+      .map((page: WikiPage) => ({
         page,
         score: scoreArticle(page)
       }))
@@ -42,8 +59,8 @@ export async function GET() {
       }));
 
     return NextResponse.json(topArticles);
-  } catch (error) {
-    console.error('Error fetching Wikipedia articles:', error);
+  } catch (error: unknown) {
+    console.error('Error fetching articles:', error);
     return NextResponse.json({ error: 'Failed to fetch articles' }, { status: 500 });
   }
 } 

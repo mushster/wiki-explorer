@@ -1,9 +1,15 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
+
+type Props = {
+  params: {
+    id: string
+  }
+}
 
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+  request: NextRequest,
+  { params }: Props
+): Promise<NextResponse> {
   try {
     const response = await fetch(
       'https://en.wikipedia.org/w/api.php?' + 
@@ -21,6 +27,7 @@ export async function GET(
     const data = await response.json()
     return NextResponse.json(data.query.pages[params.id])
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch article' }, { status: 500 })
+    console.error('Error fetching article details:', error);
+    return NextResponse.json({ error: 'Failed to fetch article details' }, { status: 500 })
   }
 } 
