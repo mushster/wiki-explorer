@@ -14,7 +14,15 @@ interface ArticleProps {
 }
 
 // Separate Dialog into its own client component
-const ArticleDialog = ({ isOpen, setIsOpen, article }) => {
+const ArticleDialog = ({ 
+  isOpen, 
+  setIsOpen,
+  article 
+}: { 
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+  article: ArticleProps;
+}) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
